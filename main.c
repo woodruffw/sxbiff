@@ -4,7 +4,16 @@
 
 int main(int argc, char **argv)
 {
-	int status = sxbiff();
+	Display *disp;
 
-	return status;
+	if (!(disp = XOpenDisplay(NULL))) {
+		FATAL_ERROR("Could not connect to the X server.", 1);
+	}
+
+	sxbiff(disp);
+
+	/* cleanup */
+	XCloseDisplay(disp);
+
+	return EXIT_SUCCESS;
 }
