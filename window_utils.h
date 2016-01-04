@@ -1,9 +1,13 @@
-#ifndef WINDOW_UTILS_H
-#define WINDOW_UTILS_H
+#ifndef SXBIFF_WINDOW_UTILS_H
+#define SXBIFF_WINDOW_UTILS_H
 
+#include <stdlib.h>
+#include <stdio.h>
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 #include <X11/Xatom.h>
+
+#include "misc.h"
 
 Window wu_create_window(Display *disp, int width, int height);
 void wu_set_window_name(Display *disp, Window wind, unsigned char *name);

@@ -5,9 +5,10 @@
 .BR sxbiff " - xbiff with signals"
 .SH SYNOPSIS
 .B sxbiff
+.RI [ \-v ]
 .PP
 .B sxbiff
-takes no arguments and starts on
+starts on
 .BR $DISPLAY .
 .SH DESCRIPTION
 .B sxbiff
@@ -22,10 +23,15 @@ it will raise the flag.
 .PP
 If you send it
 .BR SIGUSR2 ,
-it will lower the flag. Clicking the window also lowers the flag.
+it will lower the flag. Left-clicking the window also lowers the flag.
 .PP
 Pressing 'q' will quit
 .BR sxbiff .
+.SH OPTIONS
+.PP
+.BR \-v ,
+.B \-\-verbose
+Print version and copyright information.
 .SH ENVIRONMENT
 .BR DISPLAY " - Used to connect to X."
 .SH BUGS

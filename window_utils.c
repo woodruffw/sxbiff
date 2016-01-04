@@ -1,5 +1,8 @@
 #include <string.h>
 #include <time.h>
+#include <X11/Xlib.h>
+#include <X11/Xutil.h>
+#include <X11/Xatom.h>
 
 #include "sxbiff.h"
 
@@ -83,18 +86,17 @@ void wu_render_bitmap(Display *disp, Window wind, Pixmap bmp)
 	GC ctx = wu_create_gc(disp, wind);
 	struct timespec sleep = { .tv_sec = 0, .tv_nsec = 125000 };
 
-	XSync(disp, False);
-
 	int i;
 	for (i = 0; i < 10; i++) {
 		int j;
 		for (j = 0; j < 10; j++) {
 			XCopyPlane(disp, bmp, wind, ctx, 0, 0, SXBIFF_WIDTH, SXBIFF_HEIGHT,
 				0, 0, 1);
-			XSync(disp, False);
 			nanosleep(&sleep, NULL);
 		}
 	}
+
+	XFlush(disp);
 
 	XFreeGC(disp, ctx);
 }

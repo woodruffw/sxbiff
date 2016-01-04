@@ -1,27 +1,35 @@
-#include <stdbool.h>
+#include <signal.h>
 
 #include "sxbiff.h"
+#include "window_utils.h"
+#include "globals.h"
 
-void sxbiff(Display *disp)
+#include "flagup.xbm"
+#include "flagdown.xbm"
+
+static void sigcatch(int sig);
+
+void sxbiff()
 {
 	struct sigaction act = { .sa_handler = sigcatch };
-	bool up = false;
-	Window wind = wu_create_window(disp, SXBIFF_WIDTH, SXBIFF_HEIGHT);
-	Pixmap flagup = wu_create_bitmap(disp, wind, flagup_bits, flagup_width,
+
+	up = false;
+	sxbiff_window = wu_create_window(display, SXBIFF_WIDTH, SXBIFF_HEIGHT);
+	flagup = wu_create_bitmap(display, sxbiff_window, flagup_bits, flagup_width,
 			flagup_height);
-	Pixmap flagdown = wu_create_bitmap(disp, wind, flagdown_bits, flagdown_width,
+	flagdown = wu_create_bitmap(display, sxbiff_window, flagdown_bits, flagdown_width,
 			flagdown_height);
 
 	if (sigaction(SIGUSR1, &act, 0) < 0 || sigaction(SIGUSR2, &act, 0) < 0) {
-		FATAL_ERROR("Could not set signal handler or handlers.", 1);
+		FATAL_ERROR("Could not set signal handler(s).", 1);
 	}
 
 	/* always start with the flag down */
-	wu_render_bitmap(disp, wind, flagdown);
+	wu_render_bitmap(display, sxbiff_window, flagdown);
 
 	while (1) {
 		XEvent evt;
-		XNextEvent(disp, &evt);
+		XNextEvent(display, &evt);
 
 		switch (evt.type) {
 			KeySym key;
@@ -36,7 +44,7 @@ void sxbiff(Display *disp)
 				break;
 			case ButtonPress:
 				if (evt.xbutton.button == Button1 && up) {
-					wu_render_bitmap(disp, wind, flagdown);
+					wu_render_bitmap(display, sxbiff_window, flagdown);
 					up = false;
 				}
 				break;
@@ -46,17 +54,19 @@ void sxbiff(Display *disp)
 	}
 
 	cleanup:
-	XFreePixmap(disp, flagup);
-	XFreePixmap(disp, flagdown);
-	XDestroyWindow(disp, wind);
+	XFreePixmap(display, flagup);
+	XFreePixmap(display, flagdown);
+	XDestroyWindow(display, sxbiff_window);
 }
 
-void sigcatch(int sig)
+static void sigcatch(int sig)
 {
-	if (sig == SIGUSR1) {
-
+	if (sig == SIGUSR1 && !up) {
+		wu_render_bitmap(display, sxbiff_window, flagup);
+		up = true;
 	}
-	else {
-
+	else if (sig == SIGUSR2 && up) {
+		wu_render_bitmap(display, sxbiff_window, flagdown);
+		up = false;
 	}
 }
