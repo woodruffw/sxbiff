@@ -21,9 +21,9 @@ $ make
 
 RUNNING:
 
-sxbiff takes no arguments and runs on $DISPLAY.
-
 $ ./sxbiff
+
+sxbiff runs on $DISPLAY. The -v flag gives version information.
 
 LICENSE:
 
