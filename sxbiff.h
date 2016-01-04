@@ -2,6 +2,8 @@
 #define SXBIFF_H
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <signal.h>
 
 #include "window_utils.h"
 #include "flagup.xbm"
@@ -17,5 +19,6 @@
 	} while(0)
 
 void sxbiff(Display *disp);
+void sigcatch(int sig);
 
 #endif

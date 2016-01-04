@@ -1,3 +1,6 @@
+#include <string.h>
+#include <time.h>
+
 #include "sxbiff.h"
 
 Window wu_create_window(Display *disp, int width, int height)
@@ -13,20 +16,21 @@ Window wu_create_window(Display *disp, int width, int height)
 		FATAL_ERROR("Could not create a window.", 1);
 	}
 
+	XSelectInput(disp, wind, ButtonPressMask | KeyPressMask);
 	size = XAllocSizeHints();
 
 	if (!size) {
 		FATAL_ERROR("Could not allocate memory for size hints.", 1);
 	}
 
-	size->flags = PSize | PMinSize;
-	size->width = size->min_width = SXBIFF_WIDTH;
-	size->height = size->min_height = SXBIFF_HEIGHT;
+	size->flags = PSize | PMinSize | PMaxSize;
+	size->width = size->min_width = size->max_width = SXBIFF_WIDTH;
+	size->height = size->min_height = size->max_height = SXBIFF_HEIGHT;
 	XSetWMNormalHints(disp, wind, size);
 	XFree(size);
 
 	XMapWindow(disp, wind);
-	XFlush(wind);
+	XFlush(disp);
 	return wind;
 }
 
@@ -77,7 +81,7 @@ Pixmap wu_create_bitmap(Display *disp, Window wind, char *bits, int width,
 void wu_render_bitmap(Display *disp, Window wind, Pixmap bmp)
 {
 	GC ctx = wu_create_gc(disp, wind);
-	struct timespec sleep = { .tv_sec = 0, tv_nsec = 125000 };
+	struct timespec sleep = { .tv_sec = 0, .tv_nsec = 125000 };
 
 	XSync(disp, False);
 
@@ -92,5 +96,5 @@ void wu_render_bitmap(Display *disp, Window wind, Pixmap bmp)
 		}
 	}
 
-	XFreeGC(ctx);
+	XFreeGC(disp, ctx);
 }
