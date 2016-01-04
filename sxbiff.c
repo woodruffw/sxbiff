@@ -11,6 +11,7 @@ static void sigcatch(int sig);
 
 void sxbiff()
 {
+	bool exiting = false;
 	struct sigaction act = { .sa_handler = sigcatch };
 
 	up = false;
@@ -27,7 +28,7 @@ void sxbiff()
 	/* always start with the flag down */
 	wu_render_bitmap(display, sxbiff_window, flagdown);
 
-	while (1) {
+	while (!exiting) {
 		XEvent evt;
 		XNextEvent(display, &evt);
 
@@ -38,7 +39,7 @@ void sxbiff()
 			case KeyPress:
 				if (XLookupString(&evt.xkey, buf, 255, &key, 0)) {
 					if (buf[0] == 'q') {
-						goto cleanup;
+						exiting = true;
 					}
 				}
 				break;
@@ -53,7 +54,6 @@ void sxbiff()
 		}
 	}
 
-	cleanup:
 	XFreePixmap(display, flagup);
 	XFreePixmap(display, flagdown);
 	XDestroyWindow(display, sxbiff_window);

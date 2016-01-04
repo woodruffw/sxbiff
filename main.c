@@ -6,7 +6,7 @@
 int main(int argc, char **argv)
 {
 	if (argc >= 2 && (STREQ(argv[1], "-v") || STREQ(argv[1], "--version"))) {
-		puts("sxbiff version 1.0 (c) William Woodruff 2016");
+		puts("sxbiff version 1.1 (c) William Woodruff 2016");
 		return 1;
 	}
 
