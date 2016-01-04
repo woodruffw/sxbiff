@@ -18,8 +18,8 @@ void sxbiff()
 	sxbiff_window = wu_create_window(display, SXBIFF_WIDTH, SXBIFF_HEIGHT);
 	flagup = wu_create_bitmap(display, sxbiff_window, flagup_bits, flagup_width,
 			flagup_height);
-	flagdown = wu_create_bitmap(display, sxbiff_window, flagdown_bits, flagdown_width,
-			flagdown_height);
+	flagdown = wu_create_bitmap(display, sxbiff_window, flagdown_bits,
+			flagdown_width, flagdown_height);
 
 	if (sigaction(SIGUSR1, &act, 0) < 0 || sigaction(SIGUSR2, &act, 0) < 0) {
 		FATAL_ERROR("Could not set signal handler(s).", 1);
