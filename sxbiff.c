@@ -16,6 +16,7 @@ void sxbiff()
 
 	up = false;
 	sxbiff_window = wu_create_window(display, SXBIFF_WIDTH, SXBIFF_HEIGHT);
+	wu_set_window_name(display, sxbiff_window, "sxbiff");
 	flagup = wu_create_bitmap(display, sxbiff_window, flagup_bits, flagup_width,
 			flagup_height);
 	flagdown = wu_create_bitmap(display, sxbiff_window, flagdown_bits,
@@ -36,6 +37,14 @@ void sxbiff()
 			KeySym key;
 			char buf[255];
 
+			case ConfigureNotify:
+				if (up)	{
+					wu_render_bitmap(display, sxbiff_window, flagup);
+				}
+				else {
+					wu_render_bitmap(display, sxbiff_window, flagdown);
+				}
+				break;
 			case KeyPress:
 				if (XLookupString(&evt.xkey, buf, 255, &key, 0)) {
 					if (buf[0] == 'q') {
@@ -43,6 +52,11 @@ void sxbiff()
 					}
 				}
 				break;
+			case ClientMessage:
+				if (evt.xclient.data.l[0] == XInternAtom(display,
+					"WM_DELETE_WINDOW", False)) {
+					exiting = true;
+				}
 			case ButtonPress:
 				if (evt.xbutton.button == Button1 && up) {
 					wu_render_bitmap(display, sxbiff_window, flagdown);

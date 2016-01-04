@@ -10,6 +10,7 @@ Window wu_create_window(Display *disp, int width, int height)
 {
 	int screen = DefaultScreen(disp);
 	Window wind;
+	Atom wm_delete_wind;
 	XSizeHints *size;
 
 	wind = XCreateSimpleWindow(disp, RootWindow(disp, screen), 0, 0,
@@ -19,14 +20,18 @@ Window wu_create_window(Display *disp, int width, int height)
 		FATAL_ERROR("Could not create a window.", 1);
 	}
 
-	XSelectInput(disp, wind, ButtonPressMask | KeyPressMask);
+	wm_delete_wind = XInternAtom(disp, "WM_DELETE_WINDOW", False);
+	XSetWMProtocols(disp, wind, &wm_delete_wind, 1);
+
+	XSelectInput(disp, wind, StructureNotifyMask | ButtonPressMask |
+		KeyPressMask);
 	size = XAllocSizeHints();
 
 	if (!size) {
 		FATAL_ERROR("Could not allocate memory for size hints.", 1);
 	}
 
-	size->flags = PSize | PMinSize | PMaxSize;
+	size->flags = PSize | PMinSize;
 	size->width = size->min_width = size->max_width = SXBIFF_WIDTH;
 	size->height = size->min_height = size->max_height = SXBIFF_HEIGHT;
 	XSetWMNormalHints(disp, wind, size);
