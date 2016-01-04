@@ -1,0 +1,38 @@
+.\" sxbiff
+.\" Author: William Woodruff (woodruffw)
+.TH sxbiff 1 "3 January 2016" "1.0" "User Commands"
+.SH NAME
+.BR sxbiff " - xbiff with signals"
+.SH SYNOPSIS
+.B sxbiff
+.PP
+.B sxbiff
+takes no arguments and starts on
+.BR $DISPLAY .
+.SH DESCRIPTION
+.B sxbiff
+is very similar to
+.BR xbiff ,
+except that it uses UNIX signals instead of checking a mail spool or polling
+a command for changes.
+.PP
+If you send it
+.BR SIGUSR1 ,
+it will raise its flag.
+.PP
+If you send it
+.BR SIGUSR2 ,
+it will lower its flag. Clicking the window also lowers the flag.
+.SH ENVIRONMENT
+.BR DISPLAY " - Used to connect to X."
+.SH BUGS
+None known.
+.SH AUTHOR
+.B sxbiff
+was written and is maintained by William Woodruff
+.RI ( "william@tuffbizz.com" ).
+It is licensed under the MIT License. The source code can be found at:
+.IR https://github.com/woodruffw/sxbiff .
+.SH SEE ALSO
+.IR biff (1),
+.IR xbiff (1)

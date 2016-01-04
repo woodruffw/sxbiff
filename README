@@ -1,0 +1,35 @@
+sxbiff is xbiff with signals.
+
+If your MUA doesn't have a spool/mailfile for xbiff to monitor,
+you can use sxbiff instead:
+
+$ kill -SIGUSR1 $(pidof sxbiff) # raise the mailbox flag
+$ kill -SIGUSR2 $(pidof sxbiff) # lower the mailbox flag
+
+Alternatively, clicking the sxbiff window while the flag is raised will
+lower it.
+
+BUILDING:
+
+sxbiff requires X11's development headers. These are usually packaged
+as libX11-dev or something similar.
+
+Once the development headers are installed:
+
+$ git clone https://github.com/woodruffw/sxbiff && cd sxbiff
+$ make
+
+RUNNING:
+
+sxbiff takes no arguments and runs on $DISPLAY.
+
+$ ./sxbiff
+
+LICENSE:
+
+sxbiff is licensed by William Woodruff under the MIT License.
+
+The flagdown.xbm and flagup.xbm bitmaps are licensed by The Open Group et al.
+under the X/MIT License.
+
+Full terms can be found in the LICENSE file.
