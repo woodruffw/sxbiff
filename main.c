@@ -4,9 +4,9 @@
 
 int main(int argc, char **argv)
 {
-	Display *disp;
+	Display *disp = XOpenDisplay(NULL);
 
-	if (!(disp = XOpenDisplay(NULL))) {
+	if (!disp) {
 		FATAL_ERROR("Could not connect to the X server.", 1);
 	}
 
