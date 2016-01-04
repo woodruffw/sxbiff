@@ -53,5 +53,10 @@ void sxbiff(Display *disp)
 
 void sigcatch(int sig)
 {
+	if (sig == SIGUSR1) {
 
+	}
+	else {
+
+	}
 }
