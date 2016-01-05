@@ -1,11 +1,11 @@
 .\" sxbiff
 .\" Author: William Woodruff (woodruffw)
-.TH sxbiff 1 "3 January 2016" "1.1" "User Commands"
+.TH sxbiff 1 "3 January 2016" "1.3" "User Commands"
 .SH NAME
 .BR sxbiff " - xbiff with signals"
 .SH SYNOPSIS
 .B sxbiff
-.RI [ \-v ]
+.RI [ \-ov ]
 .PP
 .B sxbiff
 starts on
@@ -29,9 +29,15 @@ Pressing 'q' will quit
 .BR sxbiff .
 .SH OPTIONS
 .PP
+.BR \-o ,
+.B \-\-ontop
+Keeps
+.B sxbiff
+above all other windows. Requires EWMH.
+.PP
 .BR \-v ,
 .B \-\-verbose
-Print version and copyright information.
+Print version and copyright information, then exit.
 .SH ENVIRONMENT
 .BR DISPLAY " - Used to connect to X."
 .SH BUGS

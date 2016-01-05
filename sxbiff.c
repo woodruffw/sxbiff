@@ -9,7 +9,7 @@
 
 static void sigcatch(int sig);
 
-void sxbiff()
+void sxbiff(bool ontop)
 {
 	bool exiting = false;
 	struct sigaction act = { .sa_handler = sigcatch };
@@ -17,6 +17,11 @@ void sxbiff()
 	up = false;
 	sxbiff_window = wu_create_window(display, SXBIFF_WIDTH, SXBIFF_HEIGHT);
 	wu_set_window_name(display, sxbiff_window, "sxbiff");
+
+	if (ontop) {
+		wu_set_window_above(display, sxbiff_window);
+	}
+
 	flagup = wu_create_bitmap(display, sxbiff_window, flagup_bits, flagup_width,
 			flagup_height);
 	flagdown = wu_create_bitmap(display, sxbiff_window, flagdown_bits,

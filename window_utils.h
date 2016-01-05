@@ -10,6 +10,7 @@
 #include "misc.h"
 
 Window wu_create_window(Display *disp, int width, int height);
+void wu_set_window_above(Display *disp, Window wind);
 void wu_set_window_name(Display *disp, Window wind, unsigned char *name);
 GC wu_create_gc(Display *disp, Window wind);
 Pixmap wu_create_bitmap(Display *disp, Window wind, char *bits, int width,

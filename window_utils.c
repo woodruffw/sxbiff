@@ -42,6 +42,46 @@ Window wu_create_window(Display *disp, int width, int height)
 	return wind;
 }
 
+void wu_set_window_above(Display *disp, Window wind)
+{
+	Atom wm_state, wm_state_above;
+	XEvent event;
+
+	if ((wm_state = XInternAtom(disp, "_NET_WM_STATE", False)) != None)
+	{
+		if ((wm_state_above = XInternAtom(disp, "_NET_WM_STATE_ABOVE", False))
+			!= None)
+		{
+			event.xclient.type = ClientMessage;
+			event.xclient.serial = 0;
+			event.xclient.send_event = True;
+			event.xclient.display = disp;
+			event.xclient.window = wind;
+			event.xclient.message_type = wm_state;
+			event.xclient.format = 32;
+			event.xclient.data.l[0] = 1; /* _NET_WM_STATE_ADD */
+			event.xclient.data.l[1] = wm_state_above;
+			event.xclient.data.l[2] = 0;
+			event.xclient.data.l[3] = 0;
+			event.xclient.data.l[4] = 0;
+
+			if (!(XSendEvent(disp, DefaultRootWindow(disp), False,
+				SubstructureRedirectMask | SubstructureNotifyMask, &event)))
+			{
+				FATAL_ERROR("Could not send an X event for window level.", -1);
+			}
+		}
+		else
+		{
+			FATAL_ERROR("Could not access _NET_WM_STATE_ABOVE (EWMH?).", -1);
+		}
+	}
+	else
+	{
+		FATAL_ERROR("Could not access _NET_WM_STATE (EWMH?).", -1);
+	}
+}
+
 void wu_set_window_name(Display *disp, Window wind, unsigned char *name)
 {
 	XTextProperty prop;
