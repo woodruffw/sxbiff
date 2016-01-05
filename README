@@ -23,7 +23,10 @@ RUNNING:
 
 $ ./sxbiff
 
-sxbiff runs on $DISPLAY. The -v flag gives version information.
+The -o (--ontop) flag keeps sxbiff on top of all other windows.
+The -v (--version) flag gives version information.
+
+sxbiff runs on $DISPLAY.
 
 LICENSE:
 
